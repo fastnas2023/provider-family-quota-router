@@ -1,8 +1,21 @@
 # provider-family-quota-router
 
-CLIProxyAPI native plugin for passive provider-family quota routing.
+CLIProxyAPI native plugin for passive provider-family quota routing. It solves a practical OAuth routing problem: when one account fails for one model family, CLIProxyAPI should temporarily avoid only that account-family pair instead of disabling the whole account or repeatedly retrying a known-bad route.
 
 Author: Jason Zahng QQ:350400138
+
+## 简介
+
+`provider-family-quota-router` 是一个符合 CLIProxyAPI 官方 native plugin ABI 的插件，用于被动记录上游真实请求结果，并按 `provider + auth_id + model_family` 做精细冷却。
+
+它主要解决的问题：
+
+- 一个账号的 Claude 额度/限流失败，不应该影响同账号的 Gemini 或 GPT-OSS。
+- 某个账号某个模型族刚失败后，不应该继续被轮询反复命中。
+- 不应该为了探测额度频繁发后台请求，避免还没使用就把额度消耗掉。
+- Trae、Claude Compatible、OpenAI Compatible 等客户端只需要正常请求，插件在 CLIProxyAPI 侧被动学习结果。
+
+开发思路和开发路径见：[docs/development-path.md](docs/development-path.md)。
 
 ## Purpose
 
