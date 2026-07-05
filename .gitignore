@@ -1,0 +1,9 @@
+build/
+dist/
+*.so
+*.dylib
+*.dll
+*.h
+*.test
+coverage.out
+.DS_Store
